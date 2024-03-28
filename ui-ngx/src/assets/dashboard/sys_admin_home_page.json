@@ -2023,6 +2023,7 @@
                 "lineHeight": "1"
               },
               "tickLabelColor": "rgba(0, 0, 0, 0.54)",
+              "ticksFormat": {},
               "showTicks": false,
               "ticksColor": "rgba(0, 0, 0, 0.54)",
               "showLine": false,
@@ -2076,9 +2077,11 @@
             "tooltipValueColor": "rgba(0, 0, 0, 0.76)",
             "tooltipShowDate": true,
             "tooltipDateFormat": {
-              "format": "MMMM dd, yyyy",
+              "format": null,
               "lastUpdateAgo": false,
-              "custom": true
+              "custom": false,
+              "auto": true,
+              "autoDateFormatSettings": {}
             },
             "tooltipDateFont": {
               "family": "Roboto",
@@ -2110,13 +2113,14 @@
                 "color": "rgba(255,255,255,0.72)",
                 "blur": 3
               }
-            }
+            },
+            "padding": "0"
           },
           "title": "Time series chart",
           "dropShadow": false,
           "enableFullscreen": false,
           "titleStyle": null,
-          "configMode": "advanced",
+          "configMode": "basic",
           "actions": {},
           "showTitleIcon": false,
           "titleIcon": "thermostat",
@@ -2134,7 +2138,7 @@
           "titleColor": "rgba(0, 0, 0, 0.87)",
           "titleTooltip": "",
           "widgetStyle": {},
-          "widgetCss": ".tb-widget-container > .tb-widget {\n    border: none !important;\n    border-radius: 0 !important;\n    box-shadow: none !important;\n}\n\n.tb-time-series-chart-panel {\n    padding: 0;\n}\n\n.tb-time-series-chart-panel div.tb-widget-title {\n    padding-top: 5px;\n    padding-left: 5px;\n}",
+          "widgetCss": ".tb-widget-container > .tb-widget {\n    border: none !important;\n    border-radius: 0 !important;\n    box-shadow: none !important;\n}\n\n.tb-time-series-chart-panel div.tb-widget-title {\n    padding-top: 5px;\n    padding-left: 5px;\n}",
           "pageSize": 1024,
           "units": "",
           "decimals": null,
@@ -2493,6 +2497,7 @@
                 "lineHeight": "1"
               },
               "tickLabelColor": "rgba(0, 0, 0, 0.54)",
+              "ticksFormat": {},
               "showTicks": false,
               "ticksColor": "rgba(0, 0, 0, 0.54)",
               "showLine": false,
@@ -2546,9 +2551,11 @@
             "tooltipValueColor": "rgba(0, 0, 0, 0.76)",
             "tooltipShowDate": true,
             "tooltipDateFormat": {
-              "format": "dd MMM yyyy HH:mm:ss",
+              "format": null,
               "lastUpdateAgo": false,
-              "custom": false
+              "custom": false,
+              "auto": true,
+              "autoDateFormatSettings": {}
             },
             "tooltipDateFont": {
               "family": "Roboto",
@@ -2580,7 +2587,8 @@
                 "color": "rgba(255,255,255,0.72)",
                 "blur": 3
               }
-            }
+            },
+            "padding": "0"
           },
           "title": "Time series chart",
           "dropShadow": false,
@@ -2604,7 +2612,7 @@
           "titleColor": "rgba(0, 0, 0, 0.87)",
           "titleTooltip": "",
           "widgetStyle": {},
-          "widgetCss": ".tb-time-series-chart-panel {\n    padding: 0;\n}\n\n.tb-time-series-chart-panel div.tb-widget-title {\n    padding-top: 5px;\n    padding-left: 5px;\n}",
+          "widgetCss": ".tb-time-series-chart-panel div.tb-widget-title {\n    padding-top: 5px;\n    padding-left: 5px;\n}",
           "pageSize": 1024,
           "units": "%",
           "decimals": null,
