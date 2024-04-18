@@ -32,12 +32,7 @@ import org.thingsboard.server.common.data.notification.NotificationType;
 import org.thingsboard.server.common.data.notification.info.RuleOriginatedNotificationInfo;
 import org.thingsboard.server.common.data.notification.targets.NotificationTarget;
 import org.thingsboard.server.common.data.notification.targets.NotificationTargetConfig;
-import org.thingsboard.server.common.data.notification.targets.platform.CustomerUsersFilter;
-import org.thingsboard.server.common.data.notification.targets.platform.PlatformUsersNotificationTargetConfig;
-import org.thingsboard.server.common.data.notification.targets.platform.TenantAdministratorsFilter;
-import org.thingsboard.server.common.data.notification.targets.platform.UserListFilter;
-import org.thingsboard.server.common.data.notification.targets.platform.UsersFilter;
-import org.thingsboard.server.common.data.notification.targets.platform.UsersFilterType;
+import org.thingsboard.server.common.data.notification.targets.platform.*;
 import org.thingsboard.server.common.data.page.PageData;
 import org.thingsboard.server.common.data.page.PageLink;
 import org.thingsboard.server.dao.entity.AbstractEntityService;
@@ -124,6 +119,13 @@ public class DefaultNotificationTargetService extends AbstractEntityService impl
                 }
                 CustomerUsersFilter filter = (CustomerUsersFilter) usersFilter;
                 return userService.findCustomerUsers(tenantId, new CustomerId(filter.getCustomerId()), pageLink);
+            }
+            case END_USERS: {
+                if (tenantId.equals(TenantId.SYS_TENANT_ID)) {
+                    throw new IllegalArgumentException("End users target is not supported for system administrator");
+                }
+                //EndUsersFilter filter = (EndUsersFilter) usersFilter;
+                return userService.findEndUsersByTenantId(tenantId, pageLink);
             }
             case TENANT_ADMINISTRATORS: {
                 TenantAdministratorsFilter filter = (TenantAdministratorsFilter) usersFilter;

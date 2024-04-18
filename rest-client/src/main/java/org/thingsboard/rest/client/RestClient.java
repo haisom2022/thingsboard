@@ -2680,6 +2680,32 @@ public class RestClient implements Closeable {
                 }, params).getBody();
     }
 
+    public PageData<User> getEndUsersByCustomerId(CustomerId customerId, PageLink pageLink) {
+        Map<String, String> params = new HashMap<>();
+        params.put("customerId", customerId.getId().toString());
+        addPageLinkToParam(params, pageLink);
+
+        return restTemplate.exchange(
+                baseURL + "/api/customer/{customerId}/endusers?" + getUrlParams(pageLink),
+                HttpMethod.GET,
+                HttpEntity.EMPTY,
+                new ParameterizedTypeReference<PageData<User>>() {
+                }, params).getBody();
+    }
+
+    public PageData<User> getEndUsersByTenantId(TenantId tenantId, PageLink pageLink) {
+        Map<String, String> params = new HashMap<>();
+        params.put("tenantId", tenantId.getId().toString());
+        addPageLinkToParam(params, pageLink);
+
+        return restTemplate.exchange(
+                baseURL + "/api/tenant/{tenantId}/endusers?" + getUrlParams(pageLink),
+                HttpMethod.GET,
+                HttpEntity.EMPTY,
+                new ParameterizedTypeReference<PageData<User>>() {
+                }, params).getBody();
+    }
+
     public PageData<UserEmailInfo> getUsersForAssign(AlarmId alarmId, PageLink pageLink) {
         Map<String, String> params = new HashMap<>();
         params.put("alarmId", alarmId.getId().toString());

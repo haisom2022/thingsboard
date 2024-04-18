@@ -444,6 +444,13 @@ export class MenuService {
         icon: 'supervisor_account'
       },
       {
+        id: 'endusers',
+        name: 'user.end-users',
+        type: 'link',
+        path: '/endusers',
+        icon: 'supervisor_account'
+      },
+      {
         id: 'rule_chains',
         name: 'rulechain.rulechains',
         type: 'link',
@@ -691,6 +698,16 @@ export class MenuService {
         ]
       },
       {
+        name: 'user.end-users',
+        places: [
+          {
+            name: 'user.end-users',
+            icon: 'supervisor_account',
+            path: '/endusers'
+          }
+        ]
+      },
+      {
         name: 'asset.management',
         places: [
           {
@@ -878,6 +895,13 @@ export class MenuService {
             icon: 'view_quilt'
           }
         ]
+      },
+      {
+        id: 'endusers',
+        name: 'user.end-users',
+        type: 'link',
+        path: '/endusers',
+        icon: 'supervisor_account'
       }
     );
     if (authState.edgesSupportEnabled) {
@@ -944,6 +968,16 @@ export class MenuService {
             name: 'entity-view.entity-views',
             icon: 'view_quilt',
             path: '/entityViews'
+          }
+        ]
+      },
+      {
+        name: 'user.end-users',
+        places: [
+          {
+            name: 'user.end-users',
+            icon: 'supervisor_account',
+            path: '/endusers'
           }
         ]
       }

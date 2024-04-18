@@ -103,6 +103,30 @@ public class JpaUserDao extends JpaAbstractDao<UserEntity, User> implements User
     }
 
     @Override
+    public PageData<User> findEndUsersByTenantId(UUID tenantId,PageLink pageLink) {
+        return DaoUtil.toPageData(
+                userRepository
+                        .findEndUsersByTenantId(
+                                tenantId,
+                                pageLink.getTextSearch(),
+                                Authority.END_USER,
+                                DaoUtil.toPageable(pageLink)));
+
+    }
+
+    @Override
+    public PageData<User> findEndUsersByCustomerId(UUID customerId, PageLink pageLink) {
+        return DaoUtil.toPageData(
+                userRepository
+                        .findEndUsersByCustomerId(
+                                customerId,
+                                pageLink.getTextSearch(),
+                                Authority.END_USER,
+                                DaoUtil.toPageable(pageLink)));
+
+    }
+
+    @Override
     public PageData<User> findUsersByCustomerIds(UUID tenantId, List<CustomerId> customerIds, PageLink pageLink) {
         return DaoUtil.toPageData(
                 userRepository

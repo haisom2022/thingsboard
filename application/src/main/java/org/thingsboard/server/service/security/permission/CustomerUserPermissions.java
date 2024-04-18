@@ -42,6 +42,7 @@ public class CustomerUserPermissions extends AbstractPermissions {
         put(Resource.DASHBOARD, customerDashboardPermissionChecker);
         put(Resource.ENTITY_VIEW, customerEntityPermissionChecker);
         put(Resource.USER, userPermissionChecker);
+        put(Resource.END_USER, endUserPermissionChecker);
         put(Resource.WIDGETS_BUNDLE, widgetsPermissionChecker);
         put(Resource.WIDGET_TYPE, widgetsPermissionChecker);
         put(Resource.EDGE, customerEntityPermissionChecker);
@@ -157,6 +158,29 @@ public class CustomerUserPermissions extends AbstractPermissions {
         }
 
     };
+
+    private static final PermissionChecker endUserPermissionChecker = new PermissionChecker<UserId, User>() {
+
+        @Override
+        public boolean hasPermission(SecurityUser user, Operation operation, UserId userId, User userEntity) {
+            if (!Authority.END_USER.equals(userEntity.getAuthority())) {
+                return false;
+            }
+
+            if (!user.getCustomerId().equals(userEntity.getCustomerId())) {
+                return false;
+            }
+
+            if (Operation.READ.equals(operation)) {
+                return true;
+            }
+
+            return user.getId().equals(userId);
+        }
+
+    };
+
+
 
     private static final PermissionChecker widgetsPermissionChecker = new PermissionChecker.GenericPermissionChecker(Operation.READ) {
 

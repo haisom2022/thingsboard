@@ -221,6 +221,30 @@ public class UserController extends BaseController {
         return tbUserService.save(getTenantId(), getCurrentUser().getCustomerId(), user, sendActivationMail, request, getCurrentUser());
     }
 
+
+    @ApiOperation(value = "Save Or update EndUser (saveEnduser)",
+            notes = "Create or update the Enduser. When creating enduser, platform generates User Id as " + UUID_WIKI_LINK +
+                    "The newly created User Id will be present in the response. " +
+                    "Specify existing User Id to update the device. " +
+                    "Referencing non-existing User Id will cause 'Not Found' error." +
+                    "\n\nDevice email is unique for entire platform setup." +
+                    "Remove 'id', 'tenantId' and optionally 'customerId' from the request body example (below) to create new User entity." +
+                    "\n\nAvailable for users with 'SYS_ADMIN', 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.")
+    @PreAuthorize("hasAnyAuthority('SYS_ADMIN', 'TENANT_ADMIN', 'CUSTOMER_USER')")
+    @RequestMapping(value = "/enduser", method = RequestMethod.POST)
+    @ResponseBody
+    public User saveEnduser(
+            @Parameter(description = "A JSON value representing the User.", required = true)
+            @RequestBody User user,
+            @Parameter(description = "Send activation email (or use activation link)" , schema = @Schema(defaultValue = "true"))
+            @RequestParam(required = false, defaultValue = "true") boolean sendActivationMail, HttpServletRequest request) throws ThingsboardException {
+        if (!Authority.SYS_ADMIN.equals(getCurrentUser().getAuthority())) {
+            user.setTenantId(getCurrentUser().getTenantId());
+        }
+        //checkEntity(user.getId(), user, Resource.USER);
+        return tbUserService.save(getTenantId(), getCurrentUser().getCustomerId(), user, sendActivationMail, request, getCurrentUser());
+    }
+
     @ApiOperation(value = "Send or re-send the activation email",
             notes = "Force send the activation email to the user. Useful to resend the email if user has accidentally deleted it. " + SYSTEM_OR_TENANT_AUTHORITY_PARAGRAPH)
     @PreAuthorize("hasAnyAuthority('SYS_ADMIN', 'TENANT_ADMIN')")
@@ -289,6 +313,24 @@ public class UserController extends BaseController {
         tbUserService.delete(getTenantId(), getCurrentUser().getCustomerId(), user, getCurrentUser());
     }
 
+    @ApiOperation(value = "Delete Enduser (deleteEnduser)",
+            notes = "Deletes the Enduser, it's credentials and all the relations (from and to the User). " +
+                    "Referencing non-existing User Id will cause an error. " + SYSTEM_OR_TENANT_AUTHORITY_PARAGRAPH)
+    @PreAuthorize("hasAnyAuthority('SYS_ADMIN', 'TENANT_ADMIN','CUSTOMER_USER')")
+    @RequestMapping(value = "/enduser/{userId}", method = RequestMethod.DELETE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void deleteEnduser(
+            @Parameter(description = USER_ID_PARAM_DESCRIPTION)
+            @PathVariable(USER_ID) String strUserId) throws ThingsboardException {
+        checkParameter(USER_ID, strUserId);
+        UserId userId = new UserId(toUUID(strUserId));
+        User user = checkUserId(userId, Operation.DELETE);
+        if (user.getAuthority() == Authority.TENANT_ADMIN && getCurrentUser().getId().equals(userId)) {
+            throw new ThingsboardException("Sysadmin is not allowed to delete himself", ThingsboardErrorCode.PERMISSION_DENIED);
+        }
+        tbUserService.delete(getTenantId(), getCurrentUser().getCustomerId(), user, getCurrentUser());
+    }
+
     @ApiOperation(value = "Get Users (getUsers)",
             notes = "Returns a page of users owned by tenant or customer. The scope depends on authority of the user that performs the request." +
                     PAGE_DATA_PARAMETERS + TENANT_OR_CUSTOMER_AUTHORITY_PARAGRAPH)
@@ -314,6 +356,33 @@ public class UserController extends BaseController {
             return checkNotNull(userService.findCustomerUsers(currentUser.getTenantId(), currentUser.getCustomerId(), pageLink));
         }
     }
+
+    @ApiOperation(value = "Get EndUsers (getEndUsers)",
+            notes = "Returns a page of users owned by tenant or customer. The scope depends on authority of the user that performs the request." +
+                    PAGE_DATA_PARAMETERS + TENANT_OR_CUSTOMER_AUTHORITY_PARAGRAPH)
+    @PreAuthorize("hasAnyAuthority('TENANT_ADMIN', 'CUSTOMER_USER')")
+    @RequestMapping(value = "/endUsers", params = {"pageSize", "page"}, method = RequestMethod.GET)
+    @ResponseBody
+    public PageData<User> getEndUsers(
+            @Parameter(description = PAGE_SIZE_DESCRIPTION, required = true)
+            @RequestParam int pageSize,
+            @Parameter(description = PAGE_NUMBER_DESCRIPTION, required = true)
+            @RequestParam int page,
+            @Parameter(description = USER_TEXT_SEARCH_DESCRIPTION)
+            @RequestParam(required = false) String textSearch,
+            @Parameter(description = SORT_PROPERTY_DESCRIPTION, schema = @Schema(allowableValues = {"createdTime", "firstName", "lastName", "email"}))
+            @RequestParam(required = false) String sortProperty,
+            @Parameter(description = SORT_ORDER_DESCRIPTION, schema = @Schema(allowableValues = {"ASC", "DESC"}))
+            @RequestParam(required = false) String sortOrder) throws ThingsboardException {
+        PageLink pageLink = createPageLink(pageSize, page, textSearch, sortProperty, sortOrder);
+        SecurityUser currentUser = getCurrentUser();
+        if (Authority.TENANT_ADMIN.equals(currentUser.getAuthority())) {
+            return checkNotNull(userService.findEndUsersByTenantId(currentUser.getTenantId(), pageLink));
+        } else {
+            return checkNotNull(userService.findEndUsersByCustomerId(currentUser.getCustomerId(), pageLink));
+        }
+    }
+
 
     @ApiOperation(value = "Find users by query (findUsersByQuery)",
             notes = "Returns page of user data objects. Search is been executed by email, firstName and " +

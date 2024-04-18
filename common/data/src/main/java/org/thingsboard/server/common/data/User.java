@@ -119,7 +119,7 @@ public class User extends BaseDataWithAdditionalInfo<UserId> implements HasName,
         return email;
     }
 
-    @Schema(required = true, description = "Authority", example = "SYS_ADMIN, TENANT_ADMIN or CUSTOMER_USER")
+    @Schema(required = true, description = "Authority", example = "SYS_ADMIN, TENANT_ADMIN or CUSTOMER_USER or END_USER")
     public Authority getAuthority() {
         return authority;
     }
@@ -221,5 +221,10 @@ public class User extends BaseDataWithAdditionalInfo<UserId> implements HasName,
     @JsonIgnore
     public boolean isCustomerUser() {
         return !isSystemAdmin() && !isTenantAdmin();
+    }
+
+    @JsonIgnore
+    public boolean isEndUser() {
+        return !isSystemAdmin() && !isTenantAdmin() && !isCustomerUser();
     }
 }

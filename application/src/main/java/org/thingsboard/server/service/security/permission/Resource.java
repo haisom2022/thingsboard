@@ -31,6 +31,7 @@ public enum Resource {
     TENANT(EntityType.TENANT),
     RULE_CHAIN(EntityType.RULE_CHAIN),
     USER(EntityType.USER),
+    END_USER(EntityType.USER),
     WIDGETS_BUNDLE(EntityType.WIDGETS_BUNDLE),
     WIDGET_TYPE(EntityType.WIDGET_TYPE),
     OAUTH2_CONFIGURATION_INFO(),

@@ -14,12 +14,25 @@
 /// limitations under the License.
 ///
 
-export const environment = {
-  appTitle: 'Clouddrive-IoT',
-  production: true,
-// @ts-ignore
-  tbVersion: TB_VERSION,
-// @ts-ignore
-  supportedLangs: SUPPORTED_LANGS,
-  defaultLang: 'en_US'
-};
+import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AppState } from '@core/core.state';
+import { EntityTabsComponent } from '../../components/entity/entity-tabs.component';
+import { User } from '@app/shared/models/user.model';
+
+@Component({
+  selector: 'tb-user-tabs',
+  templateUrl: './enduser-tabs.component.html',
+  styleUrls: []
+})
+export class EnduserTabsComponent extends EntityTabsComponent<User> {
+
+  constructor(protected store: Store<AppState>) {
+    super(store);
+  }
+
+  ngOnInit() {
+    super.ngOnInit();
+  }
+
+}

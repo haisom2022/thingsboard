@@ -837,8 +837,28 @@ export const serviceCompletions: TbEditorCompletions = {
         ],
         return: observablePageDataReturnType(userHref)
       },
+      getTenantEndUsers: {
+        description: 'Get end users by tenant id',
+        meta: 'function',
+        args: [
+          {name: 'tenantId', type: 'string', description: 'Id of the tenant'},
+          pageLinkArg,
+          requestConfigArg
+        ],
+        return: observablePageDataReturnType(userHref)
+      },
       getCustomerUsers: {
         description: 'Get customer users by id',
+        meta: 'function',
+        args: [
+          {name: 'customerId', type: 'string', description: 'Id of the customer'},
+          pageLinkArg,
+          requestConfigArg
+        ],
+        return: observablePageDataReturnType(userHref)
+      },
+      getCustomerEndUsers: {
+        description: 'Get end users by customer id',
         meta: 'function',
         args: [
           {name: 'customerId', type: 'string', description: 'Id of the customer'},

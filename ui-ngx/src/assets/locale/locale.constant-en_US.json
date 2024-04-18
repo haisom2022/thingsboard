@@ -1467,8 +1467,8 @@
         "device-state": "Device state",
         "state": "State",
         "any": "Any",
-        "active": "Active",
-        "inactive": "Inactive",
+        "active": "Online",
+        "inactive": "Offline",
         "public": "Public",
         "device-public": "Device is public",
         "select-device": "Select device",
@@ -4926,7 +4926,8 @@
         "copyId": "Copy user Id",
         "idCopiedMessage": "User Id has been copied to clipboard",
         "user-list": "User list",
-        "user-list-required": "User list is required"
+        "user-list-required": "User list is required",
+        "end-users": "End Users"
     },
     "value": {
         "type": "Value type",
@@ -5448,8 +5449,8 @@
             "layout-cellular-bar": "Cellular bar",
             "icon": "Icon",
             "date": "Date",
-            "active-bars-color": "Active signal bars color",
-            "inactive-bars-color": "Inactive signal bars color",
+            "active-bars-color": "Online signal bars color",
+            "inactive-bars-color": "Offline signal bars color",
             "signal-strength-card-style": "Signal strength card style",
             "no-signal-rssi-value": "\"No signal\" rssi value"
         },
@@ -7077,8 +7078,8 @@
         },
         "devices": {
             "view-docs": "View docs",
-            "inactive": "Inactive",
-            "active": "Active",
+            "inactive": "Offline",
+            "active": "Online",
             "total": "Total"
         },
         "alarms": {

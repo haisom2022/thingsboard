@@ -43,7 +43,7 @@ import { EntitiesModule } from '@home/pages/entities/entities.module';
 import { FeaturesModule } from '@home/pages/features/features.module';
 import { NotificationModule } from '@home/pages/notification/notification.module';
 import { AccountModule } from '@home/pages/account/account.module';
-
+import { EnduserModule } from '@modules/home/pages/enduser/enduser.module';
 @NgModule({
   exports: [
     AdminModule,
@@ -72,7 +72,8 @@ import { AccountModule } from '@home/pages/account/account.module';
     OtaUpdateModule,
     UserModule,
     VcModule,
-    AccountModule
+    AccountModule,
+    EnduserModule
   ]
 })
 export class HomePagesModule { }

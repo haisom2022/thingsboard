@@ -15,25 +15,20 @@
  */
 package org.thingsboard.server.common.data.notification.targets.platform;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-public enum UsersFilterType {
+import java.util.UUID;
 
-    USER_LIST,
-    CUSTOMER_USERS,
-    END_USERS,
-    TENANT_ADMINISTRATORS,
-    AFFECTED_TENANT_ADMINISTRATORS(true),
-    SYSTEM_ADMINISTRATORS,
-    ALL_USERS,
-    ORIGINATOR_ENTITY_OWNER_USERS(true),
-    AFFECTED_USER(true);
+@Data
+public class EndUsersFilter implements UsersFilter {
 
-    private boolean forRules;
+    @NotNull
+    private UUID customerId;
+
+    @Override
+    public UsersFilterType getType() {
+        return UsersFilterType.END_USERS;
+    }
 
 }

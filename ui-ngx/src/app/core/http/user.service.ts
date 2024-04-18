@@ -51,6 +51,18 @@ export class UserService {
       defaultHttpOptionsFromConfig(config));
   }
 
+  public getEndUsersByCustomerId(customerId: string, pageLink: PageLink,
+                          config?: RequestConfig): Observable<PageData<User>> {
+    return this.http.get<PageData<User>>(`/api/endUsers${pageLink.toQuery()}`,
+      defaultHttpOptionsFromConfig(config));
+  }
+
+  public getEndUsersByTenantId(tenantId: string, pageLink: PageLink,
+                                 config?: RequestConfig): Observable<PageData<User>> {
+    return this.http.get<PageData<User>>(`/api/endUsers${pageLink.toQuery()}`,
+      defaultHttpOptionsFromConfig(config));
+  }
+
   public getUsersForAssign(alarmId: string, pageLink: PageLink,
                           config?: RequestConfig): Observable<PageData<UserEmailInfo>> {
     return this.http.get<PageData<UserEmailInfo>>(`/api/users/assign/${alarmId}${pageLink.toQuery()}`,
@@ -68,8 +80,19 @@ export class UserService {
     return this.http.post<User>(url, user, defaultHttpOptionsFromConfig(config));
   }
 
+  public saveEnduser(user: User, sendActivationMail: boolean = false,
+                  config?: RequestConfig): Observable<User> {
+    let url = '/api/enduser';
+    url += '?sendActivationMail=' + sendActivationMail;
+    return this.http.post<User>(url, user, defaultHttpOptionsFromConfig(config));
+  }
+
   public deleteUser(userId: string, config?: RequestConfig) {
     return this.http.delete(`/api/user/${userId}`, defaultHttpOptionsFromConfig(config));
+  }
+
+  public deleteEnduser(userId: string, config?: RequestConfig) {
+    return this.http.delete(`/api/enduser/${userId}`, defaultHttpOptionsFromConfig(config));
   }
 
   public getActivationLink(userId: string, config?: RequestConfig): Observable<string> {

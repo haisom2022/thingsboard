@@ -26,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonSubTypes({
         @Type(value = UserListFilter.class, name = "USER_LIST"),
         @Type(value = CustomerUsersFilter.class, name = "CUSTOMER_USERS"),
+        @Type(value = EndUsersFilter.class, name = "END_USERS"),
         @Type(value = TenantAdministratorsFilter.class, name = "TENANT_ADMINISTRATORS"),
         @Type(value = AffectedTenantAdministratorsFilter.class, name = "AFFECTED_TENANT_ADMINISTRATORS"),
         @Type(value = SystemAdministratorsFilter.class, name = "SYSTEM_ADMINISTRATORS"),

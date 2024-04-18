@@ -24,6 +24,7 @@ import org.thingsboard.server.common.data.notification.targets.NotificationTarge
 import org.thingsboard.server.common.data.notification.targets.platform.CustomerUsersFilter;
 import org.thingsboard.server.common.data.notification.targets.platform.PlatformUsersNotificationTargetConfig;
 import org.thingsboard.server.common.data.notification.targets.platform.UsersFilter;
+import org.thingsboard.server.common.data.notification.targets.platform.EndUsersFilter;
 import org.thingsboard.server.common.data.sync.ie.EntityExportData;
 import org.thingsboard.server.queue.util.TbCoreComponent;
 import org.thingsboard.server.service.sync.vc.data.EntitiesExportCtx;
@@ -42,6 +43,10 @@ public class NotificationTargetExportService extends BaseEntityExportService<Not
                 case CUSTOMER_USERS:
                     CustomerUsersFilter customerUsersFilter = (CustomerUsersFilter) usersFilter;
                     customerUsersFilter.setCustomerId(getExternalIdOrElseInternal(ctx, new CustomerId(customerUsersFilter.getCustomerId())).getId());
+                    break;
+                case END_USERS:
+                    EndUsersFilter endUsersFilter = (EndUsersFilter) usersFilter;
+                    endUsersFilter.setCustomerId(getExternalIdOrElseInternal(ctx, new CustomerId(endUsersFilter.getCustomerId())).getId());
                     break;
                 case USER_LIST:
                     // users list stays as is and is replaced with current user id on import (due to user entities not being supported by VC)

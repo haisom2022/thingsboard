@@ -299,7 +299,8 @@ public class SwaggerConfiguration {
         var loginForm = new SecurityRequirement().addList("HTTP login form", Arrays.asList(
                 Authority.SYS_ADMIN.name(),
                 Authority.TENANT_ADMIN.name(),
-                Authority.CUSTOMER_USER.name()
+                Authority.CUSTOMER_USER.name(),
+                Authority.END_USER.name()
         ));
         return openAPI -> {
             var paths = openAPI.getPaths();
