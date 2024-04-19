@@ -219,23 +219,26 @@ export class DevicesTableConfigResolver implements Resolve<EntityTableConfig<Dev
   configureColumns(deviceScope: string): Array<EntityTableColumn<DeviceInfo>> {
     const columns: Array<EntityTableColumn<DeviceInfo>> = [
       new DateEntityTableColumn<DeviceInfo>('createdTime', 'common.created-time', this.datePipe, '150px'),
-      new EntityTableColumn<DeviceInfo>('name', 'device.name', '25%'),
-      new EntityTableColumn<DeviceInfo>('deviceProfileName', 'device-profile.device-profile', '25%'),
-      new EntityTableColumn<DeviceInfo>('label', 'device.label', '25%'),
+      new EntityTableColumn<DeviceInfo>('name', 'device.name', '20%'),
+      new EntityTableColumn<DeviceInfo>('deviceProfileName', 'device-profile.device-profile', '20%'),
+      new EntityTableColumn<DeviceInfo>('label', 'device.label', '20%'),
       new EntityTableColumn<DeviceInfo>('active', 'device.state', '80px',
         entity => this.deviceState(entity), entity => this.deviceStateStyle(entity))
     ];
+
+    columns.push(
+      new EntityTableColumn<DeviceInfo>('customerTitle', 'customer.customer', '25%'),
+      new EntityTableColumn<DeviceInfo>('enduserEmail', 'enduser.device-binder', '25%'),
+
+    );
     if (deviceScope === 'tenant') {
       columns.push(
-        new EntityTableColumn<DeviceInfo>('customerTitle', 'customer.customer', '25%'),
         new EntityTableColumn<DeviceInfo>('customerIsPublic', 'device.public', '60px',
           entity => checkBoxCell(entity.customerIsPublic), () => ({})),
+        new EntityTableColumn<DeviceInfo>('gateway', 'device.is-gateway', '60px',
+          entity => checkBoxCell(entity.additionalInfo && entity.additionalInfo.gateway), () => ({}), false)
       );
     }
-    columns.push(
-      new EntityTableColumn<DeviceInfo>('gateway', 'device.is-gateway', '60px',
-        entity => checkBoxCell(entity.additionalInfo && entity.additionalInfo.gateway), () => ({}), false)
-    );
     return columns;
   }
 

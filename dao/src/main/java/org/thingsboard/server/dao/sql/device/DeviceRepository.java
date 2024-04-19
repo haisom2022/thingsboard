@@ -42,6 +42,17 @@ public interface DeviceRepository extends JpaRepository<DeviceEntity, UUID>, Exp
                                                    @Param("textSearch") String textSearch,
                                                    Pageable pageable);
 
+    @Query("SELECT d FROM DeviceEntity d WHERE d.enduserId = :enduserId")
+    Page<DeviceEntity> findByEnduserId(@Param("enduserId") UUID enduserId,
+                                      Pageable pageable);
+
+    @Query("SELECT d FROM DeviceEntity d WHERE d.enduserId = :enduserId " +
+            "AND (:textSearch IS NULL OR ilike(d.name, CONCAT('%', :textSearch, '%')) = true " +
+            "OR ilike(d.label, CONCAT('%', :textSearch, '%')) = true)")
+    Page<DeviceEntity> findByEnduserId(@Param("enduserId") UUID enduserId,
+                                                   @Param("textSearch") String textSearch,
+                                                   Pageable pageable);
+
     @Query("SELECT d FROM DeviceEntity d WHERE d.tenantId = :tenantId " +
             "AND d.deviceProfileId = :profileId " +
             "AND (:textSearch IS NULL OR ilike(d.name, CONCAT('%', :textSearch, '%')) = true " +

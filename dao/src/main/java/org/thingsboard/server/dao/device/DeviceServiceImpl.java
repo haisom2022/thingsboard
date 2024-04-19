@@ -50,13 +50,7 @@ import org.thingsboard.server.common.data.device.data.Lwm2mDeviceTransportConfig
 import org.thingsboard.server.common.data.device.data.MqttDeviceTransportConfiguration;
 import org.thingsboard.server.common.data.device.data.SnmpDeviceTransportConfiguration;
 import org.thingsboard.server.common.data.edge.Edge;
-import org.thingsboard.server.common.data.id.CustomerId;
-import org.thingsboard.server.common.data.id.DeviceId;
-import org.thingsboard.server.common.data.id.DeviceProfileId;
-import org.thingsboard.server.common.data.id.EdgeId;
-import org.thingsboard.server.common.data.id.EntityId;
-import org.thingsboard.server.common.data.id.HasId;
-import org.thingsboard.server.common.data.id.TenantId;
+import org.thingsboard.server.common.data.id.*;
 import org.thingsboard.server.common.data.ota.OtaPackageType;
 import org.thingsboard.server.common.data.page.PageData;
 import org.thingsboard.server.common.data.page.PageLink;
@@ -101,6 +95,8 @@ public class DeviceServiceImpl extends AbstractCachedEntityService<DeviceCacheKe
     public static final String INCORRECT_CUSTOMER_ID = "Incorrect customerId ";
     public static final String INCORRECT_DEVICE_ID = "Incorrect deviceId ";
     public static final String INCORRECT_EDGE_ID = "Incorrect edgeId ";
+
+    public static final String INCORRECT_ENDUSER_ID = "Incorrect enduserId ";
 
     @Autowired
     private DeviceDao deviceDao;
@@ -350,6 +346,14 @@ public class DeviceServiceImpl extends AbstractCachedEntityService<DeviceCacheKe
         validateId(tenantId, INCORRECT_TENANT_ID + tenantId);
         validatePageLink(pageLink);
         return deviceDao.findDevicesByTenantId(tenantId.getId(), pageLink);
+    }
+
+    @Override
+    public PageData<Device> findDevicesByEnduserId(UserId userId, PageLink pageLink) {
+        log.trace("Executing findDevicesByEnduserId, userId [{}], pageLink [{}]", userId, pageLink);
+        validateId(userId, INCORRECT_ENDUSER_ID + userId);
+        validatePageLink(pageLink);
+        return deviceDao.findDevicesByEnduserId(userId.getId(), pageLink);
     }
 
 

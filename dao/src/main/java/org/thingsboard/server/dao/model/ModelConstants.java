@@ -158,6 +158,15 @@ public class ModelConstants {
 
     public static final String DEVICE_INFO_VIEW_TABLE_NAME = "device_info_view";
 
+    public static final String DEVICE_ENDUSER_ID_PROPERTY = "enduser_id";
+
+    public static final String DEVICE_ENDUSER_EMAIL_PROPERTY = "enduser_email";
+
+    public static final String DEVICE_ENDUSER_FIRST_NAME_PROPERTY = "enduser_first_name";
+
+    public static final String DEVICE_ENDUSER_LAST_NAME_PROPERTY = "enduser_last_name";
+
+    public static final String DEVICE_ENDUSER_PHONE_PROPERTY = "enduser_phone";
     /**
      * Device profile constants.
      */

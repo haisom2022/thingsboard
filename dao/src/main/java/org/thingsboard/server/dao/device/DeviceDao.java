@@ -76,6 +76,15 @@ public interface DeviceDao extends Dao<Device>, TenantEntityDao, ExportableEntit
     PageData<Device> findDevicesByTenantId(UUID tenantId, PageLink pageLink);
 
     /**
+     * Find devices by enduserId and page link.
+     *
+     * @param enduserId the enduserId
+     * @param pageLink the page link
+     * @return the list of device objects
+     */
+    PageData<Device> findDevicesByEnduserId(UUID enduserId, PageLink pageLink);
+
+    /**
      * Find devices by tenantId, type and page link.
      *
      * @param tenantId the tenantId

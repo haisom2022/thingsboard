@@ -24,11 +24,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.thingsboard.server.common.data.device.data.DeviceData;
-import org.thingsboard.server.common.data.id.CustomerId;
-import org.thingsboard.server.common.data.id.DeviceId;
-import org.thingsboard.server.common.data.id.DeviceProfileId;
-import org.thingsboard.server.common.data.id.OtaPackageId;
-import org.thingsboard.server.common.data.id.TenantId;
+import org.thingsboard.server.common.data.id.*;
 import org.thingsboard.server.common.data.validation.Length;
 import org.thingsboard.server.common.data.validation.NoXss;
 
@@ -66,6 +62,8 @@ public class Device extends BaseDataWithAdditionalInfo<DeviceId> implements HasL
     @Getter @Setter
     private DeviceId externalId;
 
+    private UserId enduserId;
+
     public Device() {
         super();
     }
@@ -86,6 +84,7 @@ public class Device extends BaseDataWithAdditionalInfo<DeviceId> implements HasL
         this.firmwareId = device.getFirmwareId();
         this.softwareId = device.getSoftwareId();
         this.externalId = device.getExternalId();
+        this.enduserId = device.getEnduserId();
     }
 
     public Device updateDevice(Device device) {
@@ -100,6 +99,7 @@ public class Device extends BaseDataWithAdditionalInfo<DeviceId> implements HasL
         this.setSoftwareId(device.getSoftwareId());
         Optional.ofNullable(device.getAdditionalInfo()).ifPresent(this::setAdditionalInfo);
         this.setExternalId(device.getExternalId());
+        this.setEnduserId(device.getEnduserId());
         return this;
     }
 
@@ -219,6 +219,17 @@ public class Device extends BaseDataWithAdditionalInfo<DeviceId> implements HasL
         this.softwareId = softwareId;
     }
 
+    @Schema(description = "JSON object with end-user Id.")
+    public UserId getEnduserId() {
+        return enduserId;
+    }
+
+    public void setEnduserId(UserId enduserId) {
+        this.enduserId = enduserId;
+    }
+
+
+
     @Schema(description = "Additional parameters of the device",implementation = com.fasterxml.jackson.databind.JsonNode.class)
     @Override
     public JsonNode getAdditionalInfo() {
@@ -232,6 +243,8 @@ public class Device extends BaseDataWithAdditionalInfo<DeviceId> implements HasL
         builder.append(tenantId);
         builder.append(", customerId=");
         builder.append(customerId);
+        builder.append(", enduserId=");
+        builder.append(enduserId);
         builder.append(", name=");
         builder.append(name);
         builder.append(", type=");

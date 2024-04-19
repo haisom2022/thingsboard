@@ -36,6 +36,15 @@ public class DeviceInfo extends Device {
     @Schema(description = "Device active flag.", accessMode = Schema.AccessMode.READ_ONLY)
     private boolean active;
 
+    @Schema(description = "Email of the Enduser that owns the device.", accessMode = Schema.AccessMode.READ_ONLY)
+    private String enduserEmail;
+    @Schema(description = "Firstname of the Enduser that owns the device.", accessMode = Schema.AccessMode.READ_ONLY)
+    private String enduserFirstName;
+    @Schema(description = "Lastname of the Enduser that owns the device.", accessMode = Schema.AccessMode.READ_ONLY)
+    private String enduserLastName;
+    @Schema(description = "Phone of the Enduser that owns the device.", accessMode = Schema.AccessMode.READ_ONLY)
+    private String enduserPhone;
+
     public DeviceInfo() {
         super();
     }
@@ -44,11 +53,15 @@ public class DeviceInfo extends Device {
         super(deviceId);
     }
 
-    public DeviceInfo(Device device, String customerTitle, boolean customerIsPublic, String deviceProfileName, boolean active) {
+    public DeviceInfo(Device device, String customerTitle, boolean customerIsPublic, String deviceProfileName, boolean active,String enduserEmail,String enduserFirstName,String enduserLastName,String enduserPhone) {
         super(device);
         this.customerTitle = customerTitle;
         this.customerIsPublic = customerIsPublic;
         this.deviceProfileName = deviceProfileName;
         this.active = active;
+        this.enduserEmail = enduserEmail;
+        this.enduserFirstName = enduserFirstName;
+        this.enduserLastName = enduserLastName;
+        this.enduserPhone = enduserPhone;
     }
 }

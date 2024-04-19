@@ -41,6 +41,15 @@ public class DeviceInfoEntity extends AbstractDeviceEntity<DeviceInfo> {
     @Column(name = ModelConstants.DEVICE_ACTIVE_PROPERTY)
     private boolean active;
 
+    @Column(name = ModelConstants.DEVICE_ENDUSER_EMAIL_PROPERTY)
+    private String enduserEmail;
+    @Column(name = ModelConstants.DEVICE_ENDUSER_FIRST_NAME_PROPERTY)
+    private String enduserFirstName;
+    @Column(name = ModelConstants.DEVICE_ENDUSER_LAST_NAME_PROPERTY)
+    private String enduserLastName;
+    @Column(name = ModelConstants.DEVICE_ENDUSER_PHONE_PROPERTY)
+    private String enduserPhone;
+
     public DeviceInfoEntity() {
         super();
     }
@@ -48,7 +57,7 @@ public class DeviceInfoEntity extends AbstractDeviceEntity<DeviceInfo> {
 
     @Override
     public DeviceInfo toData() {
-        return new DeviceInfo(super.toDevice(), customerTitle, customerIsPublic, deviceProfileName, active);
+        return new DeviceInfo(super.toDevice(), customerTitle, customerIsPublic, deviceProfileName, active,enduserEmail,enduserFirstName,enduserLastName,enduserPhone);
     }
 
 }

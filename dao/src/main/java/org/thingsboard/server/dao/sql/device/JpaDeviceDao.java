@@ -106,6 +106,22 @@ public class JpaDeviceDao extends JpaAbstractDao<DeviceEntity, Device> implement
     }
 
     @Override
+    public PageData<Device> findDevicesByEnduserId(UUID enduserId, PageLink pageLink) {
+        if (StringUtils.isEmpty(pageLink.getTextSearch())) {
+            return DaoUtil.toPageData(
+                    deviceRepository.findByEnduserId(
+                            enduserId,
+                            DaoUtil.toPageable(pageLink)));
+        } else {
+            return DaoUtil.toPageData(
+                    deviceRepository.findByEnduserId(
+                            enduserId,
+                            pageLink.getTextSearch(),
+                            DaoUtil.toPageable(pageLink)));
+        }
+    }
+
+    @Override
     public PageData<DeviceInfo> findDeviceInfosByFilter(DeviceInfoFilter filter, PageLink pageLink) {
         return DaoUtil.toPageData(
                 deviceRepository.findDeviceInfosByFilter(

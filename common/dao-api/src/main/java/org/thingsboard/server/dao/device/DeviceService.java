@@ -24,11 +24,7 @@ import org.thingsboard.server.common.data.DeviceProfile;
 import org.thingsboard.server.common.data.DeviceTransportType;
 import org.thingsboard.server.common.data.EntitySubtype;
 import org.thingsboard.server.common.data.device.DeviceSearchQuery;
-import org.thingsboard.server.common.data.id.CustomerId;
-import org.thingsboard.server.common.data.id.DeviceId;
-import org.thingsboard.server.common.data.id.DeviceProfileId;
-import org.thingsboard.server.common.data.id.EdgeId;
-import org.thingsboard.server.common.data.id.TenantId;
+import org.thingsboard.server.common.data.id.*;
 import org.thingsboard.server.common.data.ota.OtaPackageType;
 import org.thingsboard.server.common.data.page.PageData;
 import org.thingsboard.server.common.data.page.PageLink;
@@ -66,6 +62,8 @@ public interface DeviceService extends EntityDaoService {
     void deleteDevice(TenantId tenantId, DeviceId deviceId);
 
     PageData<Device> findDevicesByTenantId(TenantId tenantId, PageLink pageLink);
+
+    PageData<Device> findDevicesByEnduserId(UserId enduserId, PageLink pageLink);
 
     PageData<DeviceInfo> findDeviceInfosByFilter(DeviceInfoFilter filter, PageLink pageLink);
 

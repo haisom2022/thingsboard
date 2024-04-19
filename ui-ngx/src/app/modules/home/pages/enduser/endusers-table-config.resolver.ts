@@ -92,10 +92,10 @@ export class EndusersTableConfigResolver implements Resolve<EntityTableConfig<Us
     this.config.entitiesFetchFunction = pageLink => this.userService.getUsers(pageLink);
 
     this.config.deleteEnabled = user => user && user.id && user.id.id !== this.authUser.id.id;
-    this.config.deleteEntityTitle = user => this.translate.instant('user.delete-user-title', { userEmail: user.email });
-    this.config.deleteEntityContent = () => this.translate.instant('user.delete-user-text');
-    this.config.deleteEntitiesTitle = count => this.translate.instant('user.delete-users-title', {count});
-    this.config.deleteEntitiesContent = () => this.translate.instant('user.delete-users-text');
+    this.config.deleteEntityTitle = user => this.translate.instant('enduser.delete-user-title', { userEmail: user.email });
+    this.config.deleteEntityContent = () => this.translate.instant('enduser.delete-user-text');
+    this.config.deleteEntitiesTitle = count => this.translate.instant('enduser.delete-users-title', {count});
+    this.config.deleteEntitiesContent = () => this.translate.instant('enduser.delete-users-text');
 
     this.config.loadEntity = id => this.userService.getUser(id.id);
     this.config.saveEntity = user => this.saveUser(user);
@@ -132,9 +132,9 @@ export class EndusersTableConfigResolver implements Resolve<EntityTableConfig<Us
       }),
       map((parentEntity) => {
         if (this.authority === Authority.TENANT_ADMIN) {
-          this.config.tableTitle = parentEntity.title + ': ' + this.translate.instant('user.tenant-admins');
+          this.config.tableTitle = parentEntity.title + ': ' + this.translate.instant('enduser.user-list');
         } else {
-          this.config.tableTitle = parentEntity.title + ': ' + this.translate.instant('user.customer-users');
+          this.config.tableTitle = parentEntity.title + ': ' + this.translate.instant('enduser.user-list');
         }
         return this.config;
       })
@@ -146,9 +146,7 @@ export class EndusersTableConfigResolver implements Resolve<EntityTableConfig<Us
     if (auth.userTokenAccessEnabled) {
       this.config.cellActionDescriptors.push(
         {
-          name: this.authority === Authority.TENANT_ADMIN ?
-            this.translate.instant('user.login-as-tenant-admin') :
-            this.translate.instant('user.login-as-customer-user'),
+          name: this.translate.instant('enduser.login-as-end-user'),
           icon: 'mdi:login',
           isEnabled: () => true,
           onAction: ($event, entity) => this.loginAsUser($event, entity)
@@ -158,9 +156,9 @@ export class EndusersTableConfigResolver implements Resolve<EntityTableConfig<Us
   }
 
   saveUser(user: User): Observable<User> {
-    user.tenantId = new TenantId(this.tenantId);
-    user.customerId = new CustomerId(this.customerId);
-    user.authority = this.authority;
+    //user.tenantId = new TenantId(this.tenantId);
+    //user.customerId = new CustomerId(this.customerId);
+    //user.authority = this.authority;
     return this.userService.saveUser(user);
   }
 
@@ -235,7 +233,7 @@ export class EndusersTableConfigResolver implements Resolve<EntityTableConfig<Us
       user.additionalInfo.userCredentialsEnabled = userCredentialsEnabled;
       this.store.dispatch(new ActionNotificationShow(
         {
-          message: this.translate.instant(userCredentialsEnabled ? 'user.enable-account-message' : 'user.disable-account-message'),
+          message: this.translate.instant(userCredentialsEnabled ? 'enduser.enable-account-message' : 'enduser.disable-account-message'),
           type: 'success'
         }));
     });

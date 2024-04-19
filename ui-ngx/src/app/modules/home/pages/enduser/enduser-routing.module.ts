@@ -40,7 +40,7 @@ const routes: Routes = [
         component: EntitiesTableComponent,
         data: {
           auth: [Authority.TENANT_ADMIN, Authority.CUSTOMER_USER],
-          title: 'user.end-users',
+          title: 'enduser.end-users',
         },
         resolve: {
           entitiesTableConfig: EndusersTableConfigResolver
@@ -55,8 +55,8 @@ const routes: Routes = [
             labelFunction: entityDetailsPageBreadcrumbLabelFunction,
             icon: 'account_circle'
           } as BreadCrumbConfig<EntityDetailsPageComponent>,
-          auth: [Authority.SYS_ADMIN, Authority.TENANT_ADMIN],
-          title: 'user.user',
+          auth: [Authority.SYS_ADMIN, Authority.TENANT_ADMIN,Authority.CUSTOMER_USER],
+          title: 'enduser.user',
         },
         resolve: {
           entitiesTableConfig: EndusersTableConfigResolver
