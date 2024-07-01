@@ -30,10 +30,7 @@ import org.thingsboard.server.common.data.User;
 import org.thingsboard.server.common.data.audit.ActionType;
 import org.thingsboard.server.common.data.edge.Edge;
 import org.thingsboard.server.common.data.exception.ThingsboardException;
-import org.thingsboard.server.common.data.id.CustomerId;
-import org.thingsboard.server.common.data.id.DeviceId;
-import org.thingsboard.server.common.data.id.EdgeId;
-import org.thingsboard.server.common.data.id.TenantId;
+import org.thingsboard.server.common.data.id.*;
 import org.thingsboard.server.common.data.security.DeviceCredentials;
 import org.thingsboard.server.dao.device.ClaimDevicesService;
 import org.thingsboard.server.dao.device.DeviceCredentialsService;
@@ -118,6 +115,43 @@ public class DefaultTbDeviceService extends AbstractTbEntityService implements T
         } catch (Exception e) {
             logEntityActionService.logEntityAction(tenantId, emptyId(EntityType.DEVICE), actionType, user,
                     e, deviceId.toString(), customerId.toString());
+            throw e;
+        }
+    }
+
+    @Override
+    public Device bindDeviceToEnduser(TenantId tenantId, DeviceId deviceId, User enduser,User user) throws ThingsboardException {
+        ActionType actionType = ActionType.BIND_TO_ENDUSER;
+        UserId enduserId = enduser.getId();
+        try {
+            Device savedDevice = checkNotNull(deviceService.bindDeviceToEnduser(tenantId, deviceId, enduserId));
+            logEntityActionService.logEntityAction(tenantId, deviceId, savedDevice, actionType, user,
+                    deviceId.toString(), enduserId.toString(), enduser.getName());
+
+            return savedDevice;
+        } catch (Exception e) {
+            logEntityActionService.logEntityAction(tenantId, emptyId(EntityType.DEVICE), actionType, user,
+                    e, deviceId.toString(), enduserId.toString());
+            throw e;
+        }
+    }
+
+    @Override
+    public Device unbindDeviceFromEnduser(Device device, User enduser, User user) throws ThingsboardException {
+        ActionType actionType = ActionType.UNBIND_TO_ENDUSER;
+        TenantId tenantId = device.getTenantId();
+        DeviceId deviceId = device.getId();
+        try {
+            Device savedDevice = checkNotNull(deviceService.unbindDeviceFromEnduser(tenantId, deviceId));
+            UserId enduserId = enduser.getId();
+
+            logEntityActionService.logEntityAction(tenantId, deviceId, savedDevice, actionType, user,
+                    deviceId.toString(), enduserId.toString(), enduser.getName());
+
+            return savedDevice;
+        } catch (Exception e) {
+            logEntityActionService.logEntityAction(tenantId, emptyId(EntityType.DEVICE), actionType,
+                    user, e, deviceId.toString());
             throw e;
         }
     }

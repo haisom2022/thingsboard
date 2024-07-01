@@ -35,6 +35,10 @@ public enum TbMsgType {
     ENTITY_UPDATED("Entity Updated"),
     ENTITY_DELETED("Entity Deleted"),
     ENTITY_ASSIGNED("Entity Assigned"),
+    ENTITY_BINDED("Entity Binded"),
+
+    ENTITY_UNBINDED("Entity Unbind"),
+
     ENTITY_UNASSIGNED("Entity Unassigned"),
     ATTRIBUTES_UPDATED("Attributes Updated"),
     ATTRIBUTES_DELETED("Attributes Deleted"),

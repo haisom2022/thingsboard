@@ -143,6 +143,15 @@ export class DeviceService {
     return this.http.post<Device>(`/api/customer/${customerId}/device/${deviceId}`, null, defaultHttpOptionsFromConfig(config));
   }
 
+  public bindDeviceToEnduser(userId: string, deviceId: string,
+                                config?: RequestConfig): Observable<Device> {
+    return this.http.post<Device>(`/api/enduser/${userId}/device/${deviceId}`, null, defaultHttpOptionsFromConfig(config));
+  }
+
+  public unbindDeviceFromEnduser(deviceId: string, config?: RequestConfig) {
+    return this.http.delete(`/api/enduser/device/${deviceId}`, defaultHttpOptionsFromConfig(config));
+  }
+
   public unassignDeviceFromCustomer(deviceId: string, config?: RequestConfig) {
     return this.http.delete(`/api/customer/device/${deviceId}`, defaultHttpOptionsFromConfig(config));
   }

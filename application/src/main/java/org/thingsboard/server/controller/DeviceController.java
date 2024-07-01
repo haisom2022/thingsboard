@@ -40,24 +40,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
-import org.thingsboard.server.common.data.ClaimRequest;
-import org.thingsboard.server.common.data.Customer;
-import org.thingsboard.server.common.data.DataConstants;
-import org.thingsboard.server.common.data.Device;
-import org.thingsboard.server.common.data.DeviceInfo;
-import org.thingsboard.server.common.data.DeviceInfoFilter;
-import org.thingsboard.server.common.data.EntitySubtype;
-import org.thingsboard.server.common.data.SaveDeviceWithCredentialsRequest;
-import org.thingsboard.server.common.data.Tenant;
+import org.thingsboard.server.common.data.*;
 import org.thingsboard.server.common.data.device.DeviceSearchQuery;
 import org.thingsboard.server.common.data.edge.Edge;
 import org.thingsboard.server.common.data.exception.ThingsboardErrorCode;
 import org.thingsboard.server.common.data.exception.ThingsboardException;
-import org.thingsboard.server.common.data.id.CustomerId;
-import org.thingsboard.server.common.data.id.DeviceId;
-import org.thingsboard.server.common.data.id.DeviceProfileId;
-import org.thingsboard.server.common.data.id.EdgeId;
-import org.thingsboard.server.common.data.id.TenantId;
+import org.thingsboard.server.common.data.id.*;
 import org.thingsboard.server.common.data.ota.OtaPackageType;
 import org.thingsboard.server.common.data.page.PageData;
 import org.thingsboard.server.common.data.page.PageLink;
@@ -88,6 +76,7 @@ import java.util.stream.Collectors;
 import static org.thingsboard.server.controller.ControllerConstants.CUSTOMER_AUTHORITY_PARAGRAPH;
 import static org.thingsboard.server.controller.ControllerConstants.CUSTOMER_ID;
 import static org.thingsboard.server.controller.ControllerConstants.CUSTOMER_ID_PARAM_DESCRIPTION;
+import static org.thingsboard.server.controller.ControllerConstants.USER_ID_PARAM_DESCRIPTION;
 import static org.thingsboard.server.controller.ControllerConstants.DEVICE_ACTIVE_PARAM_DESCRIPTION;
 import static org.thingsboard.server.controller.ControllerConstants.DEVICE_ID;
 import static org.thingsboard.server.controller.ControllerConstants.DEVICE_ID_PARAM_DESCRIPTION;
@@ -248,6 +237,43 @@ public class DeviceController extends BaseController {
         DeviceId deviceId = new DeviceId(toUUID(strDeviceId));
         checkDeviceId(deviceId, Operation.ASSIGN_TO_CUSTOMER);
         return tbDeviceService.assignDeviceToCustomer(getTenantId(), deviceId, customer, getCurrentUser());
+    }
+
+    @ApiOperation(value = "Bind device to enduser (bindDeviceToEnduser)",
+            notes = "Creates bind of the device to enduser. enduser will be able to query device afterwards." + TENANT_AUTHORITY_PARAGRAPH)
+    @PreAuthorize("hasAnyAuthority('TENANT_ADMIN','CUSTOMER_USER')")
+    @RequestMapping(value = "/enduser/{userId}/device/{deviceId}", method = RequestMethod.POST)
+    @ResponseBody
+    public Device bindDeviceToEnduser(@Parameter(description = USER_ID_PARAM_DESCRIPTION)
+                                         @PathVariable("userId") String struserId,
+                                         @Parameter(description = DEVICE_ID_PARAM_DESCRIPTION)
+                                         @PathVariable(DEVICE_ID) String strDeviceId) throws ThingsboardException {
+        checkParameter("userId", struserId);
+        checkParameter(DEVICE_ID, strDeviceId);
+        UserId userId = new UserId(toUUID(struserId));
+        User user = checkUserId(userId, Operation.READ);
+        DeviceId deviceId = new DeviceId(toUUID(strDeviceId));
+        checkDeviceId(deviceId, Operation.ASSIGN_TO_CUSTOMER);
+        return tbDeviceService.bindDeviceToEnduser(getTenantId(), deviceId, user,getCurrentUser());
+    }
+
+    @ApiOperation(value = "Unbind device from enduser (unbindDeviceFromEnduser)",
+            notes = "Clears bind of the device to enduser. enduser will not be able to query device afterwards." + TENANT_AUTHORITY_PARAGRAPH)
+    @PreAuthorize("hasAnyAuthority('TENANT_ADMIN','CUSTOMER_USER')")
+    @RequestMapping(value = "/enduser/device/{deviceId}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public Device unbindDeviceFromEnduser(@Parameter(description = DEVICE_ID_PARAM_DESCRIPTION)
+                                             @PathVariable(DEVICE_ID) String strDeviceId) throws ThingsboardException {
+        checkParameter(DEVICE_ID, strDeviceId);
+        DeviceId deviceId = new DeviceId(toUUID(strDeviceId));
+        Device device = checkDeviceId(deviceId, Operation.UNBIND_FROM_ENDUSER);
+        if (device.getEnduserId() == null || device.getEnduserId().getId().equals(ModelConstants.NULL_UUID)) {
+            throw new IncorrectParameterException("Device isn't bind to any user!");
+        }
+
+        User enduser = checkUserId(device.getEnduserId(), Operation.READ);
+
+        return tbDeviceService.unbindDeviceFromEnduser(device, enduser, getCurrentUser());
     }
 
     @ApiOperation(value = "Unassign device from customer (unassignDeviceFromCustomer)",

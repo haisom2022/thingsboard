@@ -7295,6 +7295,19 @@
         "user-list": "End-user list",
         "user-list-required": "User list is required",
         "end-users": "End Users",
-        "device-binder":"End-user Binder"
+        "device-binder":"End-user Binder",
+        "bind-to-enduser": "Bind to enduser",
+        "unbind-to-enduser": "Unbind from enduser",
+        "bind-device-to-enduser": "Bind Device(s) To Enduser",
+        "bind-to-enduser-text": "Please select the enduser to bind the device(s)",
+        "bind-asset-to-enduser": "Bind Asset(s) To Enduser",
+        "bind-to-enduser-text": "Please select the enduser to bind the asset(s)",
+        "bind-edge-to-enduser": "Bind Edge(s) To Enduser",
+        "bind-to-enduser-text": "Please select the enduser to bind the edge(s)",
+        "bind-entity-view-to-enduser":"Bind Entity View(s) To Enduser",
+        "bind-to-enduser-text": "Please select the entity views to bind to the enduser",
+        "unbind-device-title": "Are you sure you want to unbind the device '{{deviceName}}'?",
+        "unbind-device-text": "After the confirmation the device will be unbind and won't be accessible by the enduser.",
+        "login-as-enduser": "Login as Enduser"
     }
 }

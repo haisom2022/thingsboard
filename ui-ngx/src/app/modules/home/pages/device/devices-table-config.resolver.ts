@@ -18,7 +18,7 @@ import { Injectable } from '@angular/core';
 
 import { ActivatedRoute, ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
 import {
-  CellActionDescriptor,
+  CellActionDescriptor, CellActionDescriptor2,
   checkBoxCell,
   DateEntityTableColumn,
   EntityTableColumn,
@@ -60,6 +60,10 @@ import {
   AssignToCustomerDialogComponent,
   AssignToCustomerDialogData
 } from '@modules/home/dialogs/assign-to-customer-dialog.component';
+import {
+  BindToEnduserDialogComponent,
+  BindToEnduserDialogData
+} from '@modules/home/dialogs/bind-to-enduser-dialog.component';
 import { DeviceId } from '@app/shared/models/id/device-id';
 import {
   AddEntitiesToCustomerDialogComponent,
@@ -309,6 +313,18 @@ export class DevicesTableConfigResolver implements Resolve<EntityTableConfig<Dev
           onAction: ($event, entity) => this.unassignFromCustomer($event, entity)
         },
         {
+          name: this.translate.instant('enduser.bind-to-enduser'),
+          icon: 'add_link',
+          isEnabled: (entity) => (!entity.enduserId || entity.enduserId.id === NULL_UUID),
+          onAction: ($event, entity) => this.bindToEnduser($event, [entity.id])
+        },
+        {
+          name: this.translate.instant('enduser.unbind-to-enduser'),
+          icon: 'link_off',
+          isEnabled: (entity) => (entity.enduserId && entity.enduserId.id !== NULL_UUID),
+          onAction: ($event, entity) => this.unbindFromEnduser($event, entity)
+        },
+        {
           name: this.translate.instant('device.make-private'),
           icon: 'reply',
           isEnabled: (entity) => (entity.customerId && entity.customerId.id !== NULL_UUID && entity.customerIsPublic),
@@ -331,6 +347,18 @@ export class DevicesTableConfigResolver implements Resolve<EntityTableConfig<Dev
           onAction: ($event, entity) => this.unassignFromCustomer($event, entity)
         },
         {
+          name: this.translate.instant('enduser.bind-to-enduser'),
+          icon: 'add_link',
+          isEnabled: (entity) => (!entity.enduserId || entity.enduserId.id === NULL_UUID),
+          onAction: ($event, entity) => this.bindToEnduser($event, [entity.id])
+        },
+        {
+          name: this.translate.instant('enduser.unbind-to-enduser'),
+          icon: 'link_off',
+          isEnabled: (entity) => (entity.enduserId && entity.enduserId.id !== NULL_UUID),
+          onAction: ($event, entity) => this.unbindFromEnduser($event, entity)
+        },
+        {
           name: this.translate.instant('device.make-private'),
           icon: 'reply',
           isEnabled: (entity) => (entity.customerId && entity.customerId.id !== NULL_UUID && entity.customerIsPublic),
@@ -346,6 +374,18 @@ export class DevicesTableConfigResolver implements Resolve<EntityTableConfig<Dev
     }
     if (deviceScope === 'customer_user' || deviceScope === 'edge_customer_user') {
       actions.push(
+        {
+          name: this.translate.instant('enduser.bind-to-enduser'),
+          icon: 'add_link',
+          isEnabled: (entity) => (!entity.enduserId || entity.enduserId.id === NULL_UUID),
+          onAction: ($event, entity) => this.bindToEnduser($event, [entity.id])
+        },
+        {
+          name: this.translate.instant('enduser.unbind-to-enduser'),
+          icon: 'link_off',
+          isEnabled: (entity) => (entity.enduserId && entity.enduserId.id !== NULL_UUID),
+          onAction: ($event, entity) => this.unbindFromEnduser($event, entity)
+        },
         {
           name: this.translate.instant('device.view-credentials'),
           icon: 'security',
@@ -526,6 +566,9 @@ export class DevicesTableConfigResolver implements Resolve<EntityTableConfig<Dev
     );
   }
 
+  testbyhaico(device: DeviceInfo){
+    return ''
+  }
   assignToCustomer($event: Event, deviceIds: Array<DeviceId>) {
     if ($event) {
       $event.stopPropagation();
@@ -544,6 +587,55 @@ export class DevicesTableConfigResolver implements Resolve<EntityTableConfig<Dev
           this.config.updateData();
         }
       });
+  }
+
+  bindToEnduser($event: Event, deviceIds: Array<DeviceId>) {
+    if ($event) {
+      $event.stopPropagation();
+    }
+    this.dialog.open<BindToEnduserDialogComponent, BindToEnduserDialogData,
+      boolean>(BindToEnduserDialogComponent, {
+      disableClose: true,
+      panelClass: ['tb-dialog', 'tb-fullscreen-dialog'],
+      data: {
+        entityIds: deviceIds,
+        entityType: EntityType.DEVICE
+      }
+    }).afterClosed()
+      .subscribe((res) => {
+        if (res) {
+          this.config.updateData();
+        }
+      });
+  }
+
+  unbindFromEnduser($event: Event, device: DeviceInfo) {
+    if ($event) {
+      $event.stopPropagation();
+    }
+
+    let title;
+    let content;
+
+    title = this.translate.instant('enduser.unbind-device-title', {deviceName: device.name});
+    content = this.translate.instant('enduser.unbind-device-text');
+
+    this.dialogService.confirm(
+      title,
+      content,
+      this.translate.instant('action.no'),
+      this.translate.instant('action.yes'),
+      true
+    ).subscribe((res) => {
+        if (res) {
+          this.deviceService.unbindDeviceFromEnduser(device.id.id).subscribe(
+            () => {
+              this.config.updateData(this.config.componentsData.deviceScope !== 'tenant');
+            }
+          );
+        }
+      }
+    );
   }
 
   unassignFromCustomer($event: Event, device: DeviceInfo) {
@@ -637,6 +729,9 @@ export class DevicesTableConfigResolver implements Resolve<EntityTableConfig<Dev
         return true;
       case 'assignToCustomer':
         this.assignToCustomer(action.event, [action.entity.id]);
+        return true;
+      case 'bindToEnduser':
+        this.bindToEnduser(action.event, [action.entity.id]);
         return true;
       case 'unassignFromCustomer':
         this.unassignFromCustomer(action.event, action.entity);

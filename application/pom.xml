@@ -42,6 +42,7 @@
         <pkg.win.dist>${project.build.directory}/windows</pkg.win.dist>
         <pkg.copyInstallScripts>true</pkg.copyInstallScripts>
         <pkg.implementationTitle>ThingsBoard</pkg.implementationTitle>
+<!--        <pkg.mainClass>org.thingsboard.server.ThingsboardInstallApplication</pkg.mainClass>-->
         <pkg.mainClass>org.thingsboard.server.ThingsboardServerApplication</pkg.mainClass>
     </properties>
 

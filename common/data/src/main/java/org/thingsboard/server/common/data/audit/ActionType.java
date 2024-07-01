@@ -32,6 +32,9 @@ public enum ActionType {
     RPC_CALL(false, null), // log method and params
     CREDENTIALS_UPDATED(false, null), // log new credentials
     ASSIGNED_TO_CUSTOMER(false, TbMsgType.ENTITY_ASSIGNED), // log customer name
+    BIND_TO_ENDUSER(false, TbMsgType.ENTITY_BINDED), // log customer name
+    UNBIND_TO_ENDUSER(false, TbMsgType.ENTITY_UNBINDED),
+
     UNASSIGNED_FROM_CUSTOMER(false, TbMsgType.ENTITY_UNASSIGNED), // log customer name
     ACTIVATED(false, null), // log string id
     SUSPENDED(false, null), // log string id

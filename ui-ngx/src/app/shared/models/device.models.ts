@@ -38,6 +38,7 @@ import {
 import { PageLink } from '@shared/models/page/page-link';
 import { isDefinedAndNotNull, isNotEmptyStr } from '@core/utils';
 import { EdgeId } from '@shared/models/id/edge-id';
+import {UserId} from "@shared/models/id/user-id";
 
 export enum DeviceProfileType {
   DEFAULT = 'DEFAULT',
@@ -722,6 +723,7 @@ export interface Device extends BaseData<DeviceId>, HasTenantId, ExportableEntit
   deviceProfileId?: DeviceProfileId;
   deviceData?: DeviceData;
   additionalInfo?: any;
+  enduserId?: UserId;
 }
 
 export interface DeviceInfo extends Device {
@@ -729,6 +731,10 @@ export interface DeviceInfo extends Device {
   customerIsPublic: boolean;
   deviceProfileName: string;
   active: boolean;
+  enduserEmail:string;
+  enduserFirstName:string;
+  enduserLastName:string;
+  enduserPhone:string;
 }
 
 export interface DeviceInfoFilter {

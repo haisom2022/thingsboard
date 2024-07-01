@@ -64,6 +64,18 @@ export interface CellActionDescriptor<T extends BaseData<HasId>> {
   type?: CellActionDescriptorType;
 }
 
+export interface CellActionDescriptor2<T extends BaseData<HasId>> {
+  name: string;
+  nameFunction?: (entity: T) => string;
+  icon?: string;
+  iconFunction?: (entity: T) => string;
+  style?: any;
+  isEnabled: (entity: T) => boolean;
+  isShow: (entity: T) => boolean;
+  onAction: ($event: MouseEvent, entity: T) => any;
+  type?: CellActionDescriptorType;
+}
+
 export interface GroupActionDescriptor<T extends BaseData<HasId>> {
   name: string;
   icon: string;

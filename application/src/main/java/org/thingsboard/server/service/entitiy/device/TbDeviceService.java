@@ -39,6 +39,10 @@ public interface TbDeviceService {
 
     Device assignDeviceToCustomer(TenantId tenantId, DeviceId deviceId, Customer customer, User user) throws ThingsboardException;
 
+    Device bindDeviceToEnduser(TenantId tenantId, DeviceId deviceId, User enduser,User user) throws ThingsboardException;
+
+    Device unbindDeviceFromEnduser(Device device, User enduser, User user) throws ThingsboardException;
+
     Device unassignDeviceFromCustomer(Device device, Customer customer, User user) throws ThingsboardException;
 
     Device assignDeviceToPublicCustomer(TenantId tenantId, DeviceId deviceId, User user) throws ThingsboardException;

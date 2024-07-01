@@ -6320,6 +6320,19 @@
         "user-list": "终端用户列表",
         "user-list-required": "用户列表必填。",
         "end-users": "终端用户",
-        "device-binder":"终端绑定者"
+        "device-binder":"终端绑定者",
+        "bind-to-enduser": "绑定给终端用户",
+        "unbind-to-enduser": "从终端用户中解绑设备",
+        "bind-device-to-enduser": "Bind Device(s) To Enduser",
+        "bind-to-enduser-text": "Please select the enduser to bind the device(s)",
+        "bind-asset-to-enduser": "Bind Asset(s) To Enduser",
+        "bind-to-enduser-text": "Please select the enduser to bind the asset(s)",
+        "bind-edge-to-enduser": "Bind Edge(s) To Enduser",
+        "bind-to-enduser-text": "Please select the enduser to bind the edge(s)",
+        "bind-entity-view-to-enduser":"Bind Entity View(s) To Enduser",
+        "bind-to-enduser-text": "Please select the entity views to bind to the enduser",
+        "unbind-device-title": "确定要取消绑定设备 '{{deviceName}}' 吗？",
+        "unbind-device-text": "确认后，设备将被取消绑定，终端用户将无法访问。",
+        "login-as-enduser": "以终端用户身份登录"
     }
 }

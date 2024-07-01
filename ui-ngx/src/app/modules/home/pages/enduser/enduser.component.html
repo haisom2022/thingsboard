@@ -51,7 +51,7 @@
           (click)="onEntityAction($event, 'loginAsUser')"
           *ngIf="loginAsUserEnabled$ | async"
           [fxShow]="!isEdit">
-    {{ (entity?.authority === authority.TENANT_ADMIN ? 'user.login-as-tenant-admin' : 'user.login-as-customer-user') | translate }}
+    {{ 'enduser.login-as-enduser' | translate }}
   </button>
   <button mat-raised-button color="primary"
           [disabled]="(isLoading$ | async)"

@@ -57,6 +57,10 @@ public interface DeviceService extends EntityDaoService {
 
     Device assignDeviceToCustomer(TenantId tenantId, DeviceId deviceId, CustomerId customerId);
 
+    Device bindDeviceToEnduser(TenantId tenantId, DeviceId deviceId, UserId enduserId);
+
+    Device unbindDeviceFromEnduser(TenantId tenantId, DeviceId deviceId);
+
     Device unassignDeviceFromCustomer(TenantId tenantId, DeviceId deviceId);
 
     void deleteDevice(TenantId tenantId, DeviceId deviceId);

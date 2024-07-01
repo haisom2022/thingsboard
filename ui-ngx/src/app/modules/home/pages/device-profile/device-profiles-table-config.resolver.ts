@@ -48,6 +48,7 @@ import { HomeDialogsService } from '@home/dialogs/home-dialogs.service';
 export class DeviceProfilesTableConfigResolver implements Resolve<EntityTableConfig<DeviceProfile>> {
 
   private readonly config: EntityTableConfig<DeviceProfile> = new EntityTableConfig<DeviceProfile>();
+  imageUrl?: string;
 
   constructor(private deviceProfileService: DeviceProfileService,
               private importExport: ImportExportService,
@@ -68,8 +69,16 @@ export class DeviceProfilesTableConfigResolver implements Resolve<EntityTableCon
 
     this.config.addDialogStyle = {width: '1000px'};
 
+
     this.config.columns.push(
       new DateEntityTableColumn<DeviceProfile>('createdTime', 'common.created-time', this.datePipe, '150px'),
+      new EntityTableColumn<DeviceProfile>('image', 'device-profile.image', '20%',(deviceProfile)=>{
+        //return '<ng-template><img class="tb-image-preview" [src]="'+deviceProfile.image +'| image | async" /></ng-template>';
+        this.imageUrl =  deviceProfile.image;
+        return `<ng-template><img class="tb-image-preview" [src]="${this.imageUrl} | image | async" /></ng-template>`;
+        //var imageUrl = deviceProfile.image.replace('tb-image;', '');
+        //return `<img src="${imageUrl}" alt="Device Image" />`;
+      }),
       new EntityTableColumn<DeviceProfile>('name', 'device-profile.name', '20%'),
       new EntityTableColumn<DeviceProfile>('type', 'device-profile.type', '20%', (deviceProfile) => {
         return this.translate.instant(deviceProfileTypeTranslationMap.get(deviceProfile.type));
