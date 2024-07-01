@@ -103,7 +103,7 @@ public class User extends BaseDataWithAdditionalInfo<UserId> implements HasName,
         this.customerId = customerId;
     }
 
-    @Schema(required = true, description = "Email of the user", example = "user@example.com")
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Email of the user", example = "user@example.com")
     public String getEmail() {
         return email;
     }
@@ -119,7 +119,11 @@ public class User extends BaseDataWithAdditionalInfo<UserId> implements HasName,
         return email;
     }
 
+<<<<<<< HEAD
     @Schema(required = true, description = "Authority", example = "SYS_ADMIN, TENANT_ADMIN or CUSTOMER_USER or END_USER")
+=======
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Authority", example = "SYS_ADMIN, TENANT_ADMIN or CUSTOMER_USER")
+>>>>>>> 633411f9e13bbdfb9907dd8ac5bb44507d463937
     public Authority getAuthority() {
         return authority;
     }
